@@ -35,6 +35,7 @@ public class OFACController {
     @RequestMapping(method = RequestMethod.GET, produces = "application/json", consumes = "application/json")
     public ResponseEntity<?> findOFACIndividuals(
             @RequestHeader(value = "name", defaultValue = "", required = true) String name,
+            @RequestHeader(value = "yellowapis-key", defaultValue = "", required = false) String yellowapiskey,
             @RequestHeader(value = "minScore", defaultValue = "", required = false) int minScore) {
         SearchResult[] result;
         long responseTime = System.currentTimeMillis();
@@ -46,7 +47,10 @@ public class OFACController {
             httpStatus = HttpStatus.SERVICE_UNAVAILABLE.value();
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
         }finally {
-            logger.info("RP:"+responseTime);
+            logger.info("RP (ms) :"+ (System.currentTimeMillis()-responseTime)
+            + ",name:" + name
+                    + ",minScore:" + minScore
+                    + ",yellowapis-key:" + yellowapiskey);
         }
         return ResponseEntity.ok(result);
     }
