@@ -45,6 +45,8 @@ public class OFACController {
             logger.error(e.getMessage());
             httpStatus = HttpStatus.SERVICE_UNAVAILABLE.value();
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
+        }finally {
+            logger.info("RP:"+responseTime);
         }
         return ResponseEntity.ok(result);
     }
